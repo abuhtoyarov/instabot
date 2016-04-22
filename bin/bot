@@ -14,7 +14,7 @@ config.configure
 bot_token = config.get_bot_token
 client_id = config.get_inst_client_id
 client_secret = config.get_inst_client_secret
-CALLBACK_URL = "http://localhost:5100/oauth/callback"
+CALLBACK_URL = "http://instabot.me:5100/oauth/callback"
 
 
 Instagram.configure do |config|
