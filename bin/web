@@ -1,6 +1,6 @@
-require 'sinatra'
+#!/usr/bin/env ruby
 
-enable :sessions
+require 'sinatra'
 
 get "/oauth/callback" do
   if params[:code]

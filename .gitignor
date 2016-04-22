@@ -1,0 +1,4 @@
+config/database.yml
+config/secrets.yml
+*.log
+bot_old.rb

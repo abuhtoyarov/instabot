@@ -1,2 +1,2 @@
-bot: ruby ./inst.rb
-sinatra: ruby ./web.rb
+bot: ./bin/bot
+web: ./bin/web

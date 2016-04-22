@@ -1,0 +1,43 @@
+#!/usr/bin/env ruby
+
+require 'telegram/bot'
+require "instagram"
+
+require './lib/message_responder'
+require './lib/inline_query'
+require './lib/answer_inline_query'
+require './lib/app_configurator'
+
+config = AppConfigurator.new
+config.configure
+
+bot_token = config.get_bot_token
+client_id = config.get_inst_client_id
+client_secret = config.get_inst_client_secret
+CALLBACK_URL = "http://localhost:5100/oauth/callback"
+
+
+Instagram.configure do |config|
+  config.client_id = client_id
+  config.client_secret = client_secret
+end
+
+authorize_url = Instagram.authorize_url(:redirect_uri => CALLBACK_URL, :scope => 'comments')
+
+Telegram::Bot::Client.run(bot_token, logger: Logger.new($stderr)) do |bot|
+  bot.listen do |message|
+    options = {bot: bot, message: message, authorize_url: authorize_url, callback_url: CALLBACK_URL}
+    case message
+    when Telegram::Bot::Types::Message
+
+      MessageResponder.new(options).respond
+
+    when Telegram::Bot::Types::InlineQuery
+
+      InlineQuery.new(message, bot).respond
+
+    end
+  end
+end
+
+
